@@ -62,7 +62,5 @@ test("Handle Child window", async ({ browser }) => {
     documentLink.click(),
   ]);
 
-  console.log(await newPage.innerText("p.blockquote-para"));
-
   await newPage.locator("span").first().waitFor({ state: "hidden" });
 });

@@ -1,7 +1,7 @@
 import { test, expect, request } from "@playwright/test";
 import ApiUtils from "../utils/ApiUtils";
-import loginPayload from "../Api-data/loginPayload.json";
-import orderPayload from "../Api-data/orderPayload.json";
+import loginPayload from "../api-data/loginPayload.json";
+import orderPayload from "../api-data/orderPayload.json";
 
 let login;
 let apiUtil;

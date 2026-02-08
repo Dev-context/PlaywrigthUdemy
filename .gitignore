@@ -8,3 +8,4 @@ node_modules/
 /playwright/.auth/
 Api-data/**.json
 !Api-data/model.json
+.env

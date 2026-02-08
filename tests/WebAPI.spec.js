@@ -29,7 +29,7 @@ test("API LOGIN", async ({ page }) => {
   await cart.click();
 });
 
-test.only("API Intercept", { tag: "@API" }, async ({ page }) => {
+test("API Intercept", { tag: "@API" }, async ({ page }) => {
   await page.route(
     `https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/${login.userId}`,
     async (route) => {

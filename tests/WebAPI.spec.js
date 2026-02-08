@@ -9,6 +9,8 @@ let login;
 let apiUtil;
 
 test.beforeAll(async () => {
+  loginPayload.userEmail = process.env?.USEREMAIL;
+  loginPayload.userPassword = process.env.USERPASSWORD;
   const apiRequest = await request.newContext();
   apiUtil = new ApiUtils(apiRequest, loginPayload);
   const order = await apiUtil.createOrder(orderPayload);

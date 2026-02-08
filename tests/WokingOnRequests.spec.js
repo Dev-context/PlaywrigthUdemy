@@ -1,26 +1,14 @@
 import { test, expect, request } from "@playwright/test";
 import ApiUtils from "../utils/ApiUtils";
-
-const loginPayload = {
-  userEmail: "frassons.vinicius@gmail.com",
-  userPassword: "A12345678a",
-};
-
-const orderPayload = {
-  orders: [
-    {
-      country: "India",
-      productOrderedId: "6960eac0c941646b7a8b3e68",
-    },
-  ],
-};
+import loginPayload from "../Api-data/loginPayload.json";
+import orderPayload from "../Api-data/orderPayload.json";
 
 let login;
 let apiUtil;
 
 test.beforeAll(async () => {
-  loginPayload.userEmail = process.env?.userEmail;
-  loginPayload.userPassword = process.env?.userPassword;
+  loginPayload.userEmail = process.env?.USEREMAIL;
+  loginPayload.userPassword = process.env.USERPASSWORD;
   const apiRequest = await request.newContext();
   apiUtil = new ApiUtils(apiRequest, loginPayload);
   const order = await apiUtil.createOrder(orderPayload);

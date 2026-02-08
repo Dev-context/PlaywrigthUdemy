@@ -1,0 +1,24 @@
+{
+  "name": "playw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx playwright test --ui --ui-host=127.0.0.1",
+    "headed": "npx playwright test Cliente --headed && npm run show-report",
+    "debug": "npx playwright test Cliente --debug",
+    "show-report": "npx playwright show-report",
+    "tag:regression": "npx playwright test --grep @API --debug --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^25.0.10"
+  },
+  "dependencies": {
+    "playwright": "^1.58.0"
+  }
+}

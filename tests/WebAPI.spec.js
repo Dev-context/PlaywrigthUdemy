@@ -1,0 +1,49 @@
+import { test, expect, request } from "@playwright/test";
+import ApiUtils from "../utils/ApiUtils";
+
+import loginPayload from "../Api-data/loginPayload.json";
+import orderPayload from "../Api-data/orderPayload.json";
+import emptyOrder from "../Api-data/emptyOrder.json";
+
+let login;
+let apiUtil;
+
+test.beforeAll(async () => {
+  const apiRequest = await request.newContext();
+  apiUtil = new ApiUtils(apiRequest, loginPayload);
+  const order = await apiUtil.createOrder(orderPayload);
+  login = order.login;
+});
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript((value) => {
+    window.localStorage.setItem("token", value);
+  }, login.token);
+  await page.goto("https://rahulshettyacademy.com/client/");
+});
+
+test("API LOGIN", async ({ page }) => {
+  const cart = page.locator('button[routerlink*="cart"]');
+  await cart.click();
+});
+
+test.only("API Intercept", { tag: "@API" }, async ({ page }) => {
+  await page.route(
+    `https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/${login.userId}`,
+    async (route) => {
+      const response = await route.fetch();
+
+      route.fulfill({
+        body: JSON.stringify(emptyOrder),
+        response,
+      });
+    },
+  );
+
+  await page.locator("button[routerlink*='myorders']").click();
+  await page.getByText("Loading....").waitFor({ state: "hidden" });
+
+  expect(await page.locator(".mt-4").textContent()).toContain(
+    "You have No Orders to show at this time.",
+  );
+});

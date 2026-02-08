@@ -6,13 +6,6 @@ test("browser by parametre", async ({ browser }) => {
   await page.goto("https://google.com");
 });
 
-test("Page by param test", async ({ page }) => {
-  await page.goto("https://google.com");
-  await page.getByRole("button", { name: "Accept all" }).click();
-  await expect(page).toHaveTitle("Google");
-  console.log(await page.title());
-});
-
 test("Unsuccess Login page rahul", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   const username = page.getByLabel("Username:");

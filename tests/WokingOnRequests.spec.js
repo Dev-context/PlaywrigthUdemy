@@ -20,9 +20,10 @@ test.beforeEach(async ({ page }) => {
     window.localStorage.setItem("token", value);
   }, login.token);
   await page.goto("https://rahulshettyacademy.com/client/");
+  await page.waitForLoadState("networkidle");
 });
 
-test("API Mix Web", async ({ page }) => {
+test("@CT001 API Mix Web", { tag: "@API" }, async ({ page }) => {
   const cart = page.locator('button[routerlink*="cart"]');
   await page
     .locator(".card-body", { hasText: "iphone 13 pro" })
@@ -41,3 +42,24 @@ test("API Mix Web", async ({ page }) => {
   await cart.click();
   expect(page.url()).toContain("/cart");
 });
+
+test(
+  "@CT002 Security test try to access an order of another user",
+  { tag: "@API" },
+  async ({ page }) => {
+    await page.locator("button[routerlink*='myorders']").click();
+    await page.route(
+      "https://rahulshettyacademy.com/api/ecom/order/get-orders-details?id=*",
+      async (route) => {
+        await route.continue({
+          url: "https://rahulshettyacademy.com/api/ecom/order/get-orders-details?id=621661f884b053f6765465b6",
+        });
+      },
+    );
+
+    await page.locator("button:has-text('View')").first().click();
+    await expect(page.locator("p").last()).toHaveText(
+      "You are not authorize to view this order",
+    );
+  },
+);

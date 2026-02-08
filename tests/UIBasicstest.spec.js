@@ -70,7 +70,6 @@ test("Handle Child window", async ({ browser }) => {
   ]);
 
   console.log(await newPage.innerText("p.blockquote-para"));
-  await newPage.pause();
 
   await newPage.locator("span").first().waitFor({ state: "hidden" });
 });
